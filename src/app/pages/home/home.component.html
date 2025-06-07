@@ -1,0 +1,21 @@
+<div class="home-container">
+  <div class="language-selector-container">
+    <app-language-switcher></app-language-switcher>
+  </div>
+
+  <div class="card welcome-card">
+    <h2 appTranslate="welcome"></h2>
+    <p appTranslate="welcome_subtitle"></p>
+  </div>
+
+  <div class="options-container">
+    <div class="card option-card" (click)="navigateToSignFolder()">
+      <div class="option-icon">
+        <i class="folder-icon"></i>
+      </div>
+      <h3 appTranslate="sign_documents"></h3>
+      <p appTranslate="upload_sign"></p>
+      <button class="btn btn-primary" appTranslate="get_started"></button>
+    </div>
+  </div>
+</div>

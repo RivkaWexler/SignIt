@@ -1,0 +1,63 @@
+/* These classes are not used in the component template and can be removed */
+.language-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  gap: 10px;
+  width: 80%;
+  min-width: 120px;
+}
+
+.language-toggle-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.language-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.language-code {
+  font-weight: bold;
+  margin-left: 8px;
+  font-size: 1.2em;
+}
+
+.language-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host-context([dir="rtl"]) .language-code {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+:host-context([dir="rtl"]) .language-selector-container {
+  flex-direction: row-reverse;
+}
+
+.language-selector-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  padding: 10px;
+}
+
+.icon{
+  width: 72px; /* 3x the original size */
+  height: 72px; /* 3x the original size */
+  object-fit: contain;
+  border-radius: 50%;
+}

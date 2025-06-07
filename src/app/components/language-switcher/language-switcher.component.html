@@ -1,0 +1,13 @@
+<div class="language-selector-container">
+  <div class="logo-container">
+    <img src="logo.png" alt="Signit Logo" class="icon">
+  </div>
+  <div class="toggle-container">
+    <button class="language-toggle" (click)="toggleLanguage()">
+      <div class="language-info">
+        <span class="language-code">{{ (languageService.selectedLanguage | async) === 'en' ? '🇺🇸' : '🇮🇱' }}</span>
+        <span class="language-code">{{ (languageService.selectedLanguage | async) === 'en' ? 'EN' : 'עב' }}</span>
+      </div>
+    </button>
+  </div>
+</div>

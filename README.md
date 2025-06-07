@@ -1,5 +1,80 @@
 # Signit
+# Signit - Document Signing Application
 
+Signit is an Angular application that allows users to sign PDF and image documents with their signatures. Users can upload a single document or a folder of documents, and sign them all with a signature which can be either uploaded as an image or drawn directly in the application.
+
+## Features
+
+- Upload and sign multiple documents at once
+- Upload signature as an image or draw it directly in the application
+- Choose signature position (top center or bottom center)
+- Embedded signatures in PDF documents using PDF-Lib
+- Image overlay signatures for image documents
+- Preview documents before and after signing
+- Download signed documents individually or all at once
+- Specify a location to save signed documents
+- Multilingual support with reactive language switching (English and Hebrew)
+- Full RTL (Right-to-Left) layout support for Hebrew
+
+## Technologies Used
+
+- Angular 20.0.0
+- TypeScript 5.8.2
+- RxJS 7.8.0
+- PDF-Lib 1.17.1 (for PDF manipulation and signing)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>= 14.x)
+- npm (>= 7.x)
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+ng serve
+```
+
+4. Open your browser and navigate to `http://localhost:4200`
+
+## Project Structure
+
+- `/src/app/components` - Reusable components (file upload, signature upload)
+- `/src/app/pages` - Page components (home, sign document, sign folder, result)
+- `/src/app/services` - Services (document service)
+- `/src/app/models` - Data models (document, signature)
+
+## Usage
+
+1. From the home page, click on the Sign Documents option
+2. Upload your documents
+3. Add your signature by either uploading an image or drawing it
+4. Click the sign button to process the document(s)
+5. Download the signed document(s) or specify a location to save them
+
+## Future Enhancements
+
+- Add more options for signature positioning (custom x,y coordinates)
+- Implement document zoom and pan for better preview
+- Add user authentication and document storage
+- Support for more document formats
+- Add document encryption for security
+- Batch processing improvements for large document sets
+- Integration with cloud storage services
+
+## License
+
+MIT License
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.0.
 
 ## Development server
