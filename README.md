@@ -126,7 +126,66 @@ For end-to-end (e2e) testing, run:
 ```bash
 ng e2e
 ```
+# SignIt
 
+SignIt is a document signing application that allows users to digitally sign PDF documents and images. The application supports multiple languages (English and Hebrew) with RTL/LTR support.
+
+## Features
+
+- Upload and sign multiple PDF documents and images
+- Signature upload and positioning
+- Multi-page document support with custom page range selection
+- RTL/LTR language support (English/Hebrew)
+- Batch document processing
+- Preview of documents before and after signing
+
+## Technology Stack
+
+- Angular 20.0.0
+- TypeScript 5.8.2
+- RxJS for state management
+- PDF-lib for PDF manipulation
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or higher
+- npm 9.x or higher
+
+### Installation
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/RivkaWexler/SignIt.git
+   cd SignIt
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+
+3. Start the development server
+   ```bash
+   npm start
+   ```
+
+4. Open your browser and navigate to `http://localhost:4200/`
+
+## Building for Production
+
+Run `npm run build` to build the project for production. The build artifacts will be stored in the `dist/` directory.
+
+## Deployment
+
+The application is automatically deployed to GitHub Pages when changes are pushed to the main branch.
+
+Visit the live application at: https://rivkawexler.github.io/SignIt/
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
