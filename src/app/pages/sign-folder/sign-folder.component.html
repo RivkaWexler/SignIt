@@ -1,0 +1,163 @@
+<div class="sign-folder-container">
+  <div class="language-selector-container">
+    <app-language-switcher></app-language-switcher>
+  </div>
+  <div class="page-header">
+    <h2 appTranslate="sign_multiple_documents"></h2>
+    <p appTranslate="upload_docs_subtitle"></p>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">
+    {{ translate(error) }}
+  </div>
+
+  <div class="sign-folder-content">
+    <div class="documents-section">
+      <h3 appTranslate="upload_documents"></h3>
+
+      <div *ngIf="documents.length === 0">
+        <app-file-upload
+          [acceptedTypes]="'application/pdf,image/*'"
+          [multiple]="true"
+          [allowFolders]="true"
+          [label]="translations[(languageService.selectedLanguage | async) || 'en'].select_documents_folder"
+          [dropzoneText]="translations[(languageService.selectedLanguage | async) || 'en'].drag_drop_files"
+          (filesSelected)="onDocumentsSelected($event)">
+        </app-file-upload>
+      </div>
+
+      <div class="documents-list" *ngIf="documents.length > 0">
+        <div class="documents-list-header">
+          <h4><span appTranslate="selected_documents"></span> ({{ documents.length }})</h4>
+          <button class="btn btn-sm btn-secondary" (click)="clearAllDocuments()" appTranslate="clear_all">
+          </button>
+        </div>
+
+        <div class="documents-grid">
+          <div class="document-card" *ngFor="let doc of documents; let i = index">
+            <div class="document-card-header">
+              <span class="document-type-badge" [class.pdf]="doc.type === 'pdf'" [class.image]="doc.type === 'image'">
+                {{ doc.type === 'pdf' ? translations[(languageService.selectedLanguage | async) || 'en'].pdf : translations[(languageService.selectedLanguage | async) || 'en'].image }}
+              </span>
+              <button class="remove-document" (click)="removeDocument(i)" [attr.aria-label]="translations[(languageService.selectedLanguage | async) || 'en'].remove">&times;</button>
+            </div>
+
+            <div class="document-preview">
+              <div *ngIf="doc.type === 'image'" class="document-image">
+                <img [src]="doc.preview" [alt]="doc.name">
+              </div>
+
+              <div *ngIf="doc.type === 'pdf'" class="document-pdf">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="48" viewBox="0 0 384 512">
+                  <path fill="#e74c3c" d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="document-name" [title]="doc.name">
+              {{ doc.name }}
+            </div>
+          </div>
+
+          <div class="add-more-container">
+            <div class="add-more-card" (click)="triggerFileUpload(false)">
+              <div class="add-icon">+</div>
+              <div appTranslate="add_more_files"></div>
+            </div>
+            <div class="add-more-card" (click)="triggerFileUpload(true)">
+              <div class="add-icon">📁</div>
+              <div appTranslate="add_folder"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="signature-section">
+      <app-signature-upload (signatureSelected)="onSignatureSelected($event)"></app-signature-upload>
+
+      <div class="signature-position-selector">
+        <h4 appTranslate="signature_position"></h4>
+        <div class="position-grid">
+          <button
+            *ngFor="let position of signaturePositionOptions"
+            class="position-button"
+            [class.active]="signaturePosition === position"
+            [attr.data-position]="position"
+            (click)="signaturePosition = position"
+            appTranslate="{{position}}">
+          </button>
+        </div>
+      </div>
+
+      <!-- Page Selection Options -->
+      <div class="page-selection-selector" *ngIf="hasMultiPageDocuments()">
+        <h4 appTranslate="page_selection"></h4>
+        <div class="radio-group">
+          <div class="radio-item" *ngFor="let mode of pageSelectionModeOptions">
+            <input
+              type="radio"
+              [id]="'mode-' + mode"
+              name="pageSelectionMode"
+              [value]="mode"
+              [(ngModel)]="pageSelectionMode"
+              (change)="onPageSelectionModeChange(mode)">
+            <label [for]="'mode-' + mode" appTranslate="{{mode}}"></label>
+          </div>
+        </div>
+
+        <!-- Custom page range options -->
+        <div class="custom-range-container" *ngIf="showCustomRange">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pageStart" appTranslate="start_page"></label>
+              <input
+                type="number"
+                id="pageStart"
+                class="form-control"
+                [(ngModel)]="pageStart"
+                (change)="updatePageRange()"
+                min="1"
+                [max]="getMaxPageCount()">
+            </div>
+            <div class="form-group">
+              <label for="pageEnd" appTranslate="end_page"></label>
+              <input
+                type="number"
+                id="pageEnd"
+                class="form-control"
+                [(ngModel)]="pageEnd"
+                (change)="updatePageRange()"
+                [min]="pageStart"
+                [max]="getMaxPageCount()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="processing-progress" *ngIf="isProcessing">
+    <div class="progress">
+      <div
+        class="progress-bar"
+        [style.width.%]="processingProgress">
+        {{ processingProgress }}%
+      </div>
+    </div>
+    <p class="processing-text" appTranslate="processing_documents"></p>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn btn-secondary" (click)="reset()">
+      <span appTranslate="reset"></span>
+    </button>
+    <button
+      class="btn btn-primary"
+      [disabled]="documents.length === 0 || !signature || isProcessing"
+      (click)="signDocuments()">
+      <span *ngIf="isProcessing" appTranslate="processing"></span>
+      <span *ngIf="!isProcessing" appTranslate="sign_documents_button"></span>
+    </button>
+  </div>
+</div>

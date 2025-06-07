@@ -1,0 +1,64 @@
+<div class="signature-upload-container">
+  <h3 appTranslate="add_your_signature"></h3>
+
+  <div class="signature-methods" *ngIf="!signature">
+    <div class="method-tabs">
+      <button
+        class="method-tab"
+        [class.active]="!drawingMode"
+        (click)="drawingMode = false">
+        <span appTranslate="upload_image"></span>
+      </button>
+      <button
+        class="method-tab"
+        [class.active]="drawingMode"
+        (click)="toggleDrawingMode()">
+        <span appTranslate="draw_signature"></span>
+      </button>
+    </div>
+
+    <div class="method-content">
+      <div *ngIf="!drawingMode" class="upload-method">
+        <app-file-upload
+          [acceptedTypes]="'image/*'"
+          [multiple]="false"
+          [label]="translations[(languageService.selectedLanguage | async) || 'en'].upload_signature_image"
+          [dropzoneText]="translations[(languageService.selectedLanguage | async) || 'en'].drag_drop_signature"
+          (filesSelected)="onFileSelected($event)">
+        </app-file-upload>
+      </div>
+
+      <div *ngIf="drawingMode" class="draw-method">
+        <div class="canvas-container">
+          <canvas
+            id="signature-canvas"
+            width="400"
+            height="200">
+          </canvas>
+        </div>
+
+        <div class="canvas-controls">
+          <button class="btn btn-secondary" (click)="clearCanvas()">
+            <span appTranslate="clear"></span>
+          </button>
+          <button class="btn btn-primary" (click)="saveSignature()">
+            <span appTranslate="save_signature"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="signature-preview" *ngIf="signature">
+    <div class="preview-header">
+      <h4 appTranslate="your_signature"></h4>
+      <button class="btn btn-sm btn-secondary" (click)="removeSignature()">
+        <span appTranslate="change"></span>
+      </button>
+    </div>
+
+    <div class="preview-image-container">
+      <img [src]="signature.preview" alt="Signature preview" class="preview-image">
+    </div>
+  </div>
+</div>
